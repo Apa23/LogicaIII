@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package practicalogica2;
+package Modelo;
 
 /**
  *
  * @author Apa
  */
-public class ListaLigadaAbya {
+public class ListaLigadaAdya {
     NodoSimple[] vec;
 
-    public ListaLigadaAbya(int n) {
+    public ListaLigadaAdya(int n) {
         vec = new NodoSimple[n];
     }
     
