@@ -21,11 +21,12 @@ public class Grafo {
     ListaLigadaAdya lista;
 
     public Grafo(String Palabras) {
-        this.Mapa(Palabras);
+        vertices = new HashMap();
+        this.Mapa(Palabras);        
         n = vertices.size();
-        inci = new int[n][n];
+        adya = new int[n][n];
         construirAdya();
-        inci = new int[l / 2][n];
+        inci = new int[n][l / 2];
         construirInci();
         lista = new ListaLigadaAdya(n);
     }
@@ -33,12 +34,14 @@ public class Grafo {
     private void Mapa(String Palabras) {
         char aux;
         String palabra = "";
+        int cont = 0;
         for (int i = 0; i < Palabras.length(); i++) {  //Guarda todas las palabras del .txt en un hashmap   
 
             aux = Palabras.charAt(i);
             if (!Character.isLetter(aux) || Character.toString(aux).equals("\n") || Character.toString(aux).equals("")) { //Valida que si sean palabras.
                 if (!"".equals(palabra)) {
-                    vertices.put(i, palabra);
+                    vertices.put(cont, palabra);
+                    cont++;
                     palabra = "";
                 }
             } else {
@@ -50,24 +53,24 @@ public class Grafo {
 
     private boolean esAdyacente(int x, int y) {
         int diferencia = 0;
-        String X = vertices.get(x);
-        String Y = vertices.get(y);
-        if (X.length() == Y.length()) {
-            for (int i = 0; i < X.length(); i++) {
-                if (X.charAt(i) != Y.charAt(i)) {
+        String s1 = vertices.get(x);        
+        String s2 = vertices.get(y);
+        if (s1.length() == s2.length()) {
+            for (int i = 0; i < s1.length(); i++) {
+                if (s1.charAt(i) != s2.charAt(i)) {
                     diferencia++;
                 }
             }
-        } else if (X.length() == Y.length() + 1) {
-            for (int i = 0; i < Y.length(); i++) {
-                if (X.charAt(i) != Y.charAt(i)) {
+        } else if (s1.length() == s2.length() + 1) {
+            for (int i = 0; i < s2.length(); i++) {
+                if (s1.charAt(i) != s2.charAt(i)) {
                     diferencia++;
                 }
             }
 
-        } else if (X.length() + 1 == Y.length()) {
-            for (int i = 0; i < X.length(); i++) {
-                if (X.charAt(i) != Y.charAt(i)) {
+        } else if (s1.length() + 1 == s2.length()) {
+            for (int i = 0; i < s1.length(); i++) {
+                if (s1.charAt(i) != s2.charAt(i)) {
                     diferencia++;
                 }
             }
@@ -79,7 +82,7 @@ public class Grafo {
     private void construirAdya() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (esAdyacente(j, j)) {
+                if (esAdyacente(i, j)) {
                     adya[i][j] = 1;
                     l++;
                 }
@@ -112,11 +115,11 @@ public class Grafo {
         
     }
 
-    public int getN() {
+    public int getNumVertices() {
         return n;
     }
 
-    public int getL() {
+    public int getNumLados() {
         return l;
     }
 

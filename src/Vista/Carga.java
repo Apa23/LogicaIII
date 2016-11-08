@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.ConstruyeGrafo;
 import Modelo.Grafo;
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +24,8 @@ public class Carga extends javax.swing.JFrame {
 
     String palabras;
     Grafo grafo;
+   VistaGrafo ventanaGrafo;
+
     public Carga() {
         initComponents();
     }
@@ -42,6 +45,8 @@ public class Carga extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lista = new javax.swing.JTextArea();
         continuar = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        imagen = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +72,19 @@ public class Carga extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout imagenLayout = new javax.swing.GroupLayout(imagen);
+        imagen.setLayout(imagenLayout);
+        imagenLayout.setHorizontalGroup(
+            imagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 578, Short.MAX_VALUE)
+        );
+        imagenLayout.setVerticalGroup(
+            imagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 349, Short.MAX_VALUE)
+        );
+
+        jScrollPane2.setViewportView(imagen);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -81,9 +99,14 @@ public class Carga extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(seleccionar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(continuar, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 158, Short.MAX_VALUE)
+                                .addComponent(continuar, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 158, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,7 +118,9 @@ public class Carga extends javax.swing.JFrame {
                     .addComponent(seleccionar)
                     .addComponent(continuar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
 
@@ -103,7 +128,7 @@ public class Carga extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,45 +141,52 @@ public class Carga extends javax.swing.JFrame {
     private void seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarActionPerformed
         try {
             // TODO add your handling code here:
-            palabras=leerTxt();
+            palabras = leerTxt();
         } catch (IOException ex) {
             Logger.getLogger(Carga.class.getName()).log(Level.SEVERE, null, ex);
         }
+        grafo = new Grafo(palabras);
+        ConstruyeGrafo controlador = new ConstruyeGrafo(grafo);
+        ventanaGrafo = new VistaGrafo(controlador.getGraphComponent());
         continuar.setEnabled(true);
     }//GEN-LAST:event_seleccionarActionPerformed
 
     private void continuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuarActionPerformed
         // TODO add your handling code here:
-        grafo = new Grafo(palabras);
+        
+        
+        ventanaGrafo.setVisible(true);
+       
     }//GEN-LAST:event_continuarActionPerformed
 
-    public String leerTxt () throws FileNotFoundException, IOException{
+    public String leerTxt() throws FileNotFoundException, IOException {
         File f;
         javax.swing.JFileChooser j = new javax.swing.JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.TXT", "txt"); //Se cree un filtro para la facilidad de encontrar el arhcivo .TXT        
         j.setFileFilter(filtro);
         j.showOpenDialog(j);
-        try{
-            String path= j.getSelectedFile().getAbsolutePath(); //contiene la ruta 
+        try {
+            String path = j.getSelectedFile().getAbsolutePath(); //contiene la ruta 
             String lectura = "";
-            f = new File (path);
-            try{
+            f = new File(path);
+            try {
                 FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr);
                 String aux;
-                while ((aux = br.readLine()) != null){
+                while ((aux = br.readLine()) != null) {
                     lectura = lectura + aux + "\n";
                 }
-                lectura = lectura.toUpperCase();               
-            }catch(IOException e){}
+                lectura = lectura.toUpperCase();
+            } catch (IOException e) {
+            }
             lista.setText(lectura);
             return lectura;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
         }
-        return null;   
-        
+        return null;
+
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -192,9 +224,11 @@ public class Carga extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton continuar;
+    private javax.swing.JPanel imagen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea lista;
     private javax.swing.JToggleButton seleccionar;
     // End of variables declaration//GEN-END:variables
