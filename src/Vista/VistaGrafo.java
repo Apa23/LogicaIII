@@ -15,12 +15,11 @@ import javax.swing.JFrame;
  * @author Apa
  */
 public class VistaGrafo extends JFrame {
-
+    
     public VistaGrafo(mxGraphComponent controladorGrafo) {
         
         this.add(controladorGrafo);
         this.pack();
-        this.setResizable(false);
         this.setLocationRelativeTo(null);
         
     }

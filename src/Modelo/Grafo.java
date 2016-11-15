@@ -29,6 +29,7 @@ public class Grafo {
         inci = new int[n][l / 2];
         construirInci();
         lista = new ListaLigadaAdya(n);
+        construirLista();
     }
 
     private void Mapa(String Palabras) {
@@ -105,10 +106,10 @@ public class Grafo {
     
     private void construirLista(){
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < n; j++) {
                 if(adya[i][j]==1){
                     NodoSimple x = new NodoSimple(j);
-                    lista.conectar(x, n);
+                    lista.conectar(x, i);
                 }
             }
         }
