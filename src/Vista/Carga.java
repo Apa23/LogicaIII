@@ -5,7 +5,7 @@
  */
 package Vista;
 
-import Controlador.ConstruyeGrafo;
+import Controlador.ControladorGrafo;
 import Modelo.Grafo;
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,6 +25,7 @@ public class Carga extends javax.swing.JFrame {
     String palabras;
     Grafo grafo;
     VistaGrafo ventanaGrafo;
+    ControladorGrafo controlador;
 
     public Carga() {
         initComponents();
@@ -48,11 +49,14 @@ public class Carga extends javax.swing.JFrame {
         lista = new javax.swing.JTextArea();
         ruta = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        rutas = new javax.swing.JTextArea();
+        inicio = new javax.swing.JComboBox<>();
+        fin = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        rutaC = new javax.swing.JTextArea();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -85,24 +89,26 @@ public class Carga extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        rutas.setColumns(20);
+        rutas.setRows(5);
+        jScrollPane2.setViewportView(rutas);
 
         jLabel2.setText("Una vez seleccionado el diccionario elija los vertices");
 
         jLabel3.setText(" de los cuales desea saber la ruta");
+
+        jLabel4.setText("La ruta mas corta es:");
+
+        rutaC.setColumns(20);
+        rutaC.setRows(5);
+        jScrollPane4.setViewportView(rutaC);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -111,17 +117,20 @@ public class Carga extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(inicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel3)
-                                .addGap(37, 37, 37))))))
+                                .addGap(37, 37, 37))
+                            .addComponent(jScrollPane4))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,24 +150,28 @@ public class Carga extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(11, 11, 11)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ruta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(74, 74, 74))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -172,14 +185,23 @@ public class Carga extends javax.swing.JFrame {
             Logger.getLogger(Carga.class.getName()).log(Level.SEVERE, null, ex);
         }
         grafo = new Grafo(palabras);
-        ConstruyeGrafo controlador = new ConstruyeGrafo(grafo);
+        controlador = new ControladorGrafo(grafo);
         ventanaGrafo = new VistaGrafo(controlador.getGraphComponent());
-        ventanaGrafo.setVisible(true); 
+        ventanaGrafo.setVisible(true);
+        agregarVertices();
         ruta.setEnabled(true);
     }//GEN-LAST:event_seleccionarActionPerformed
 
     private void rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutaActionPerformed
         // TODO add your handling code here:
+        rutas.setText("");
+        rutaC.setText("");
+        int inicio, fin;
+        inicio = this.inicio.getSelectedIndex();
+        fin= this.fin.getSelectedIndex();
+        controlador = new ControladorGrafo(grafo);
+        controlador.rutasPosibles(inicio, fin, 0);
+        imprimeRutas();
              
     }//GEN-LAST:event_rutaActionPerformed
 
@@ -209,6 +231,42 @@ public class Carga extends javax.swing.JFrame {
         }
         return null;
 
+    }
+    
+    private void agregarVertices(){
+        
+        for (int i = 0; i < grafo.getNumVertices(); i++) {
+            inicio.addItem(grafo.getVertices().get(i));
+            fin.addItem(grafo.getVertices().get(i));
+        }
+    }
+    
+    private void imprimeRutas(){
+       int menor = controlador.getCaminos().get(0).length;
+       int indexMenor=0;
+        for (int i = 0; i < controlador.getCaminos().size(); i++) {
+             String cadena= "";
+            for (int j = 0; j < controlador.getCaminos().get(i).length ; j++) {
+                String[] vec = controlador.getCaminos().get(i);  
+                if(vec.length < menor){
+                    menor = vec.length;
+                    indexMenor = i;
+                }
+                cadena = cadena + vec[j]+" ";
+            }
+            rutas.append((i+1)+". "+ cadena);
+            rutas.append("\n");
+        }
+        
+        String[] vec = controlador.getCaminos().get(indexMenor);
+        String cadena= "";
+        for (int i = 0; i < menor; i++) {             
+             cadena = cadena + vec[i]+" ";
+        }
+        rutaC.append(cadena);
+        
+ 
+        
     }
 
     /**
@@ -247,19 +305,22 @@ public class Carga extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> fin;
+    private javax.swing.JComboBox<String> inicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea lista;
     private javax.swing.JToggleButton ruta;
+    private javax.swing.JTextArea rutaC;
+    private javax.swing.JTextArea rutas;
     private javax.swing.JToggleButton seleccionar;
     // End of variables declaration//GEN-END:variables
 }

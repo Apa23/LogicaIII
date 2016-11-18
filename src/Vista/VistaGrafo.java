@@ -5,7 +5,7 @@
  */
 package Vista;
 
-import Controlador.ConstruyeGrafo;
+import Controlador.ControladorGrafo;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 import javax.swing.JFrame;
