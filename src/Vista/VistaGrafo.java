@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Juan Pablo Tobón Flórez y Andrés Felipe Aparicio Mestre
  */
 package Vista;
 
-import Controlador.ControladorGrafo;
 import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Apa
+/** 
+ * ClaseVistaGrafo: Clase que hereda JFrame y contiene la representación visual 
+ * del grafo.
  */
 public class VistaGrafo extends JFrame {
     
+     /**
+     * Constructor de la clase que asigna sus parametros de entrada a los 
+     * atributos de la clase.
+     * @param controladorGrafo
+     */
     public VistaGrafo(mxGraphComponent controladorGrafo) {
         
         this.add(controladorGrafo);
